@@ -10,7 +10,7 @@ export const Layout = (props) => (
         <Navbar/>
         {/* El layout recibe como props a sus children y los renderiza, estos son todas las etiquetas que están dentro de Layout en App.js */}
         {props.children}
-        <Footer2/>
+        <Footer/>
         </div>
     </React.Fragment>
 )
