@@ -1,21 +1,23 @@
 import React from 'react';
 
-export const FbLoginButton = props => {
+export const FbLoginButton = ({onLogin}) => {
 
     const facebookLogin = () => {
         // Accedemos a la dependencia cargada desde el <script> que otorga FB y se coloca en index.html
         // Esto lo hacemos con window.{nombre_dependencia} , en este caso se llama FB
-        //Vemos si se encuentra cargado
+        //Vemos si se encuentra cargado el SDK por medio de la URL em la etiqueta script
         if(!window.FB) return;
         
         // hacer login
-
+        // En caso de que el SDK esté cargado, veremos el status del login del
+        // Invocamos getLoginStatus, recibimos el response y si el estado de este es igual a "cconnected" se leeran los datos del usuario
         window.FB.getLoginStatus( response => {
             if (response.status === "connected"){
-                    // leeer los datos de usuario
+                    //En caso de que el LoginStatus sea de connected leeremos los datos, de esto se encargará la función facebookLoginHandler
                 facebookLoginHandler(response)
             }else{
-                    // intentar iniciar sesión
+                    // En caso de que el Login Status sea distinto de connected se
+                    // El parametro scopes tiene que ver con los permisos que queremos que el usuario nos proporcione
                     window.FB.login(facebookLoginHandler, {scope:'public_profile,email'});
             }
         });
@@ -25,13 +27,21 @@ export const FbLoginButton = props => {
         console.log(response);
 
         if (response.status === "connected"){
-            // leeer los datos del usuario
+            // LLamamos a la API e invocamos un EndPoint donde se obtendrá el id, name,email y picture dle usuario
+            // Finalmente guardamos esos datos en userData y los imprimos
             window.FB.api('/me?fields=id,name,email,picture',userData =>{
                 console.log(userData);
-
-                // almacenar la sesión del usuario en nuestra aplicación
-            })
-    }}
+             // almacenar la sesión del usuario en nuestra aplicación
+             // Ahora que ya hemos hecho el llogin 
+            const user = {
+                 ...userData,
+                 accessToken : response.authResponse.accessToken
+             };
+             // Los datos del usuario guardados en la variable user, se le pasan a la función onLogin
+             // La función onLogin vendrá del componente padre y será pasada como un props, esta funcino se encargará de 
+             onLogin(user);
+            });
+    }};
 
     return(
     <button onClick={facebookLogin} type="button" className="mx-auto my-auto items-center flex flex-row text-blue-500 hover:text-blue-700  focus:outline-none ">

@@ -3,6 +3,7 @@ import React from 'react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 
+
 export const Layout = (props) => (
     // Colocar la etiqueta React.Fragment nos permitará ocultar todos los div vacios al navegador
     <React.Fragment>

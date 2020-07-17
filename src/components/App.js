@@ -5,6 +5,8 @@ import { BrowserRouter, Switch , Route} from 'react-router-dom';
 
 // Importamos las paginas creadas
 import {Home } from '../pages/Home';
+import {Login } from '../pages/Login';
+import {Register } from '../pages/Register';
 import {Layout } from './Layout';
 import {NotFound } from './NotFound';
 
@@ -19,6 +21,8 @@ export const App = (props) => (
             <Switch>
                 {/* Especificamos las rutas que mostrarán las paginas */}
                 <Route exact path="/home" component={Home}/>
+                <Route exact path="/login" component={Login}/>
+                <Route exact path="/register" component={Register}/>
                 <Route component={NotFound} />
             </Switch>
             </Layout>
